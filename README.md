@@ -8,7 +8,7 @@ Usage
 
 ```javascript
 var Rules = require('basbosa-validation').Rules,
-  validate = require('basbosa-validation').Validate,
+  validate = require('basbosa-validation').validate,
   obj = {
     email : 'foo&invliad@email',
     firstName : 'Too long for just a first name'
@@ -46,4 +46,10 @@ var Rules = require('basbosa-validation').Rules,
     }
   });
   
-
+### On browsers
+```html
+  <script src="basbosa.validation-0.0.1.min.js" type="text/javascript"></script>
+  <script>
+   var Rules = BasbosaValidation.Rules,
+      validate = BasbosaValidation.validate;
+      // same as on nodejs ...
