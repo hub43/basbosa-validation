@@ -45,7 +45,7 @@ var Rules = require('basbosa-validation').Rules,
       console.log(errors);
     }
   });
-  
+```  
 ### On browsers
 ```html
   <script src="basbosa.validation-0.0.1.min.js" type="text/javascript"></script>
