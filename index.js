@@ -247,6 +247,6 @@
 		console.log('hereeeeeeeeeee');
 	};
 	if (typeof instance === 'undefined') instance = new BasbosaValidation;
-  if (typeof Basbosa !== 'undefined') Basbosa.add('Logger', instance);
+  if (typeof Basbosa !== 'undefined') Basbosa.add('BasbosaValidation', instance);
   return instance;
 }));
