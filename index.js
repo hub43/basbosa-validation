@@ -29,21 +29,21 @@
 		  }
 			if(field === undefined) {
 				if (obj.length != 24) {
-					if(cb === 'function')	cb(false);
+					typeof cb === 'function' &&	cb(false);
 					return false;
 				}
-				if(cb === 'function')	cb(/[\da-f]{24}/.test(obj));
+				typeof cb === 'function' &&	cb(/[\da-f]{24}/.test(obj));
 				return  /[\da-f]{24}/.test(obj);	
 			} else {
 				if (!BasbosaValidation.prototype.Rules.string(obj, field)) {
-					if(cb === 'function')	cb(false);
+					typeof cb === 'function' &&	cb(false);
 					return false;
 				}
 				if (obj[field].length != 24) {
-					if(cb === 'function')	cb(false);
+					typeof cb === 'function' &&	cb(false);
 					return false;
 				}
-				if(cb === 'function')	cb(/[\da-f]{24}/.test(obj[field]));
+				typeof cb === 'function' &&	cb(/[\da-f]{24}/.test(obj[field]));
 				return  /[\da-f]{24}/.test(obj[field]);	
 			}
 		},
@@ -52,7 +52,7 @@
 		    cb = options;
 		    options = undefined;
 		  }
-			if(cb === 'function')	cb(_.has(obj, field));
+			typeof cb === 'function' &&	cb(_.has(obj, field));
 			return _.has(obj, field);
 		},
 		string: function(obj, field, options, cb) {
@@ -61,10 +61,10 @@
 		    options = undefined;
 		  }
 			if(field === undefined) {
-				if(cb === 'function') cb(_.isString(field));
+				typeof cb === 'function' && cb(_.isString(field));
 				return  _.isString(field);
 			} else {
-				if(cb === 'function')	cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isString(obj[field]));
+				typeof cb === 'function' &&	cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isString(obj[field]));
 				return BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isString(obj[field]);
 			}
 		},
@@ -74,10 +74,10 @@
 		    options = undefined;
 		  }
 			if(field === undefined) {
-				if(cb === 'function') cb(_.isNumber(obj));
+				typeof cb === 'function' && cb(_.isNumber(obj));
 				return  _.isNumber(obj);
 			} else {
-				if(cb === 'function')	cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isNumber(obj[field]));
+				typeof cb === 'function' &&	cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isNumber(obj[field]));
 				return BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isNumber(obj[field]);
 			}
 		},
@@ -92,10 +92,10 @@
 				obj = undefined;
 			}
 			if(obj ===	undefined) {
-				if(cb === 'function') cb(self.urlPattern.test(field));
+				typeof cb === 'function' && cb(self.urlPattern.test(field));
 				return (BasbosaValidation.prototype.Rules.urlPattern.test(field));
 			} else {
-				if(cb === 'function')	cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
+				typeof cb === 'function' &&	cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
 						BasbosaValidation.prototype.Rules.urlPattern.test(obj[field]));
 				return BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
 						BasbosaValidation.prototype.Rules.urlPattern.test(obj[field]);
@@ -113,29 +113,32 @@
 				obj = undefined;
 			}
 			if(obj ===	undefined) {
-				if(cb === 'function') cb((field.length >= options));
+				typeof cb === 'function' && cb((field.length >= options.max));
 				return (field.length >= options);
 			} else {
-				if(cb === 'function') cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
-						(obj[field].length >= options));
+				typeof cb === 'function' && cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
+						(obj[field].length >= options.max));
 				return BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
-						(obj[field].length >= options);
+						(obj[field].length >= options.max);
 			}
 		},
 		email :  function(obj, field, options, cb) {
 			if (typeof field === 'function') {
 		    cb = field;
-		    options	= {};
-		    field = {};
+		    options	= undefined;
+		    field = undefined;
 		  }
 			if (typeof options === 'function') {
 		    cb = options;
-		    options = {};
+		    options = undefined;
 		  }
-			if(cb === 'function') {
+			if(cb === 'function' && field === undefined) {
 				cb(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj));
+				return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj);
+			} else {
+				cb(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj[field]));
+				return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj[field]);
 			}
-			return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj);
 		},
 		minLength: function(obj, field, options, cb) {
 			if (typeof options === 'function') {
@@ -148,10 +151,10 @@
 				obj = undefined;
 			}
 			if(obj ===	undefined) {
-				if(cb === 'function') cb(field.length <= options);
+				typeof cb === 'function' && cb(field.length <= options);
 				return field.length <= options;
 			} else {
-				if(cb === 'function') cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
+				typeof cb === 'function' && cb(BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
 						(obj[field].length <= options));
 				return BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
 						(obj[field].length <= options);
@@ -164,11 +167,33 @@
 				field = obj;
 				obj = undefined;
 			}
-			if(cb === 'function')	cb(BasbosaValidation.prototype.Rules.minLength(obj, field, options.max) && 
+			typeof cb === 'function' &&	cb(BasbosaValidation.prototype.Rules.minLength(obj, field, options.max) && 
 					BasbosaValidation.prototype.Rules.maxLength(obj, field, options.min));
 			return BasbosaValidation.prototype.Rules.minLength(obj, field, options.max) && 
 					BasbosaValidation.prototype.Rules.maxLength(obj, field, options.min);
 		},
+	};
+	BasbosaValidation.prototype.validateA = function(obj, rules, callback) {
+		var rulesFunctions = [];
+		if(_.isEmpty(rules)) typeof callback === 'function' && callback(null, true);
+		_.each(rules, function(validationRules, fieldName) {
+			_.each(validationRules, function(rule) {
+				rulesFunctions.push(function(cb) {
+					rule.rule(obj,fieldName,{min: rule.min, max: rule.max}, function(result) {
+						if(!result) cb(rule.message);
+						if(result) cb(null, result);
+					});
+				});
+			});
+		});
+		Async.parallel(rulesFunctions, function(error, result) {
+			if(error) {
+				typeof callback === 'function' && callback(error);
+			} else {
+				if(result) typeof callback === 'function' && callback(null, result);
+			}
+			
+		});
 	};
 	BasbosaValidation.prototype.validate = function(validator, msg, callback) {
 		if(_.isEmpty(validator)) {
