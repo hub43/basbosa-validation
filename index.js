@@ -101,6 +101,26 @@
 				}
 			}
 		},
+		isUnique: function(obj, field, options, cb) {
+			
+		},
+		alphaNumeric: function(obj, field, options, cb) {
+			if(checkArguments(obj, field)) {
+				return finalize(options, cb , BasbosaValidation.prototype.Rules.isPresent(obj, field) && (/^[A-Za-z]*$|^[A-Za-z][A-Za-z0-9]*$/i.test(obj[field])));
+			} else {
+				return finalize(field, cb , /^[A-Za-z]*$|^[A-Za-z][A-Za-z0-9]*$/i.test(obj));
+			}
+		},
+		extension: function(obj, field, options, cb) {
+			var partOne = "/\.(", partTwo = ")$/i";
+			if(checkArguments(obj, field)) {
+				if(BasbosaValidation.prototype.Rules.isPresent(obj, field)) {
+					return finalize(options, cb , (partOne + options.extension + partTwo).test(obj[field]));
+				} else {
+					return finalize(options, cb , (partOne + field.extension + partTwo).test(obj));
+				}	
+			}		
+		}
 	};
 	BasbosaValidation.prototype.validateA = function(obj, rules, callback) {
 		var rulesFunctions = [];
