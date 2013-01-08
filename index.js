@@ -34,10 +34,14 @@
 	BasbosaValidation.prototype.Rules = {
 		urlPattern : new RegExp("((http|https)(:\/\/))?([a-zA-Z0-9]+[.]{1}){2}[a-zA-z0-9]+(\/{1}[a-zA-Z0-9]+)*\/?", "i"),
 		isObjectId : function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
-				return finalize(options, cb , BasbosaValidation.prototype.Rules.string(obj, field) && !(obj[field].length != 24) && (/[\da-f]{24}/.test(obj[field])));
+				result =  BasbosaValidation.prototype.Rules.string(obj, field) && 
+									!(obj[field].length != 24) && (/[\da-f]{24}/.test(obj[field]));
+				return finalize(options, cb ,result);
 			} else {
-				return finalize(field, cb , !(obj[field].length != 24) && (/[\da-f]{24}/.test(obj)));
+				result = !(obj[field].length != 24) && (/[\da-f]{24}/.test(obj));
+				return finalize(field, cb , result);
 			}
 		},
 		isPresent: function(obj, field, options, cb) {
@@ -49,55 +53,77 @@
 			return _.has(obj, field);
 		},
 		string: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
-				return finalize(options, cb , BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isString(obj[field]));
+				result = BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isString(obj[field]);
+				return finalize(options, cb , result);
 			} else {
-				return finalize(field, cb, _.isString(obj));
+				result = _.isString(obj);
+				return finalize(field, cb, result);
 			}
 		},
 		numeric: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
-				return finalize(options, cb , BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isNumber(obj[field]));
+				result = BasbosaValidation.prototype.Rules.isPresent(obj, field) && _.isNumber(obj[field]);
+				return finalize(options, cb , result);
 			} else {
-				return finalize(field, cb, (_.isNumber(obj)));
+				result = _.isNumber(obj);
+				return finalize(field, cb, result);
 			}
 		},
 		url: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
-				return finalize(options, cb , BasbosaValidation.prototype.Rules.isPresent(obj, field) && BasbosaValidation.prototype.Rules.urlPattern.test(obj[field]));
+				result = BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
+								BasbosaValidation.prototype.Rules.urlPattern.test(obj[field]);
+				return finalize(options, cb , result);
 			} else {
-				return finalize(field, cb, BasbosaValidation.prototype.Rules.urlPattern.test(obj));
+				result = BasbosaValidation.prototype.Rules.urlPattern.test(obj);
+				return finalize(field, cb, result);
 			}
 		},
 		maxLength: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
 				if(BasbosaValidation.prototype.Rules.isPresent(obj, field)) {
-					return finalize(options, cb , (obj[field].length >= options.max));
+					result = obj[field].length >= options.max;
+					return finalize(options, cb , result);
 				} else {
-					return finalize(options, cb , (obj.length >= field.max));
+					result = obj.length >= field.max;
+					return finalize(options, cb , result);
 				}	
 			}
 		},
 		email :  function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
-				return finalize(options, cb , /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj[field]));
+				result = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj[field]);
+				return finalize(options, cb , result);
 			} else {
-				return finalize(field, cb , /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj));
+				result = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(obj);
+				return finalize(field, cb , result);
 			}
 		},
 		minLength: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
 				if(BasbosaValidation.prototype.Rules.isPresent(obj, field)) {
-					return finalize(options, cb , (obj[field].length <= options.min));
+					result = obj[field].length <= options.min;
+					return finalize(options, cb , result);
 				} else {
-					return finalize(options, cb , (obj.length <= field.min));
+					result = obj.length <= field.min;
+					return finalize(options, cb , result);
 				}	
 			}
 		},
 		rang: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
 				if(BasbosaValidation.prototype.Rules.isPresent(obj, field)) {
-					return finalize(options, cb , BasbosaValidation.prototype.Rules.minLength(obj, field, {min:	options.max}) && BasbosaValidation.prototype.Rules.maxLength(obj, field, {max:	options.min}));
+					result = BasbosaValidation.prototype.Rules.minLength(obj, field, {min:	options.max}) && 
+									BasbosaValidation.prototype.Rules.maxLength(obj, field, {max:	options.min});
+					return finalize(options, cb , result);
 				}
 			}
 		},
@@ -105,19 +131,26 @@
 			
 		},
 		alphaNumeric: function(obj, field, options, cb) {
+			var result ;
 			if(checkArguments(obj, field)) {
-				return finalize(options, cb , BasbosaValidation.prototype.Rules.isPresent(obj, field) && (/^[A-Za-z]*$|^[A-Za-z][A-Za-z0-9]*$/i.test(obj[field])));
+				result = BasbosaValidation.prototype.Rules.isPresent(obj, field) && 
+								(/^[A-Za-z]*$|^[A-Za-z][A-Za-z0-9]*$/i.test(obj[field]));
+				return finalize(options, cb , result);
 			} else {
-				return finalize(field, cb , /^[A-Za-z]*$|^[A-Za-z][A-Za-z0-9]*$/i.test(obj));
+				result = /^[A-Za-z]*$|^[A-Za-z][A-Za-z0-9]*$/i.test(obj);
+				return finalize(field, cb , result);
 			}
 		},
 		extension: function(obj, field, options, cb) {
+			var result ;
 			var partOne = "/\.(", partTwo = ")$/i";
 			if(checkArguments(obj, field)) {
 				if(BasbosaValidation.prototype.Rules.isPresent(obj, field)) {
-					return finalize(options, cb , (partOne + options.extension + partTwo).test(obj[field]));
+					result = (partOne + options.extension + partTwo).test(obj[field]);
+					return finalize(options, cb , result);
 				} else {
-					return finalize(options, cb , (partOne + field.extension + partTwo).test(obj));
+					result = (partOne + field.extension + partTwo).test(obj);
+					return finalize(options, cb , result);
 				}	
 			}		
 		}
