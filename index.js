@@ -144,42 +144,6 @@
 			
 		});
 	};
-	BasbosaValidation.prototype.validateA = function(validator, msg, callback) {
-		if(_.isEmpty(validator)) {
-			typeof callback === 'function' && callback(false);
-			return false;
-		}	else {
-			var validation_results = new Array();
-			_.each(validator, function(fields) {
-				_.each(fields, function(validators, key) {
-					_.each(validators, function(obj) {
-						if(_.isArray(obj)) {
-							var func = _.first(obj);
-							var args = _.union( [msg, key], _.rest(obj, 1) ); 
-							if( func.length < _.size(args) ) {
-								typeof callback === 'function' && callback(false);
-								return false;
-							} else if( func.length > _.size( args ) ) {
-								typeof callback === 'function' && callback(false);
-								return false;
-							} else {
-								validation_results.push( func.apply(null, args ) );
-							}
-						} else {
-							validation_results.push(obj(msg, key));
-						}
-					});
-				});
-			});
-			if (_.all(validation_results, _.identity)) {
-				typeof callback === 'function' && callback(true);
-				return true;
-			} else {
-				typeof callback === 'function' && callback(false);
-				return false;
-			}
-		}
-	};
 	if (typeof instance === 'undefined') instance = new BasbosaValidation;
   if (typeof Basbosa !== 'undefined') Basbosa.add('BasbosaValidation', instance);
   return instance;
