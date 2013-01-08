@@ -97,7 +97,7 @@
 		rang: function(obj, field, options, cb) {
 			if(checkArguments(obj, field)) {
 				if(BasbosaValidation.prototype.Rules.isPresent(obj, field)) {
-					return finalize(options, cb , BasbosaValidation.prototype.Rules.minLength(obj, field, options.min) && BasbosaValidation.prototype.Rules.maxLength(obj, field, options.max));
+					return finalize(options, cb , BasbosaValidation.prototype.Rules.minLength(obj, field, {min:	options.max}) && BasbosaValidation.prototype.Rules.maxLength(obj, field, {max:	options.min}));
 				}
 			}
 		},
@@ -122,7 +122,7 @@
 			}		
 		}
 	};
-	BasbosaValidation.prototype.validateA = function(obj, rules, callback) {
+	BasbosaValidation.prototype.validate = function(obj, rules, callback) {
 		var rulesFunctions = [];
 		if(_.isEmpty(rules)) typeof callback === 'function' && callback(null, true);
 		_.each(rules, function(validationRules, fieldName) {
@@ -144,7 +144,7 @@
 			
 		});
 	};
-	BasbosaValidation.prototype.validate = function(validator, msg, callback) {
+	BasbosaValidation.prototype.validateA = function(validator, msg, callback) {
 		if(_.isEmpty(validator)) {
 			typeof callback === 'function' && callback(false);
 			return false;
