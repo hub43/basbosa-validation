@@ -2,12 +2,15 @@
   "name": "basbosa-validation",
   "version": "0.0.1",
   "description": "A JavaScript module for object validation using callback functions",
+  "repository": {
+    "type": "git",
+    "url": "https://github4.com/hub43/basbosa-validation.git"
+  },
   "author": {
     "name": "YoussefGaras",
     "email": "ygaras@hub43.com"
   },
   "dependencies": {
-	"requirejs": "2.0.4",
 	"underscore":	"1.4.1",
 	"async":	"0.1.22"
   }   
